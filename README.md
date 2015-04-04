@@ -1,6 +1,7 @@
-Using WebSockets with Spring, AngularJS and SockJS
+Chatting and jamming onling using AngularJS and WebSockets
 ===
-This application explains how to write a simple Spring web application that communicates through WebSockets by using the spring-websocket framework and the SockJS client library in combination with AngularJS.
+This application combines the chat application from g00glen00b and the MIDI piano from letoribo.
 
-* [View the tutorial](http://g00glen00b.be/spring-angular-sockjs)
+* [chat app](http://g00glen00b.be/spring-angular-sockjs)
+* [piano app](https://github.com/letoribo/jam-midi)
 
