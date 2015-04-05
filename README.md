@@ -10,6 +10,6 @@ This application combines the chat application from g00glen00b and the MIDI pian
 
 Compiling
 ---------
-  bower install
-  mvn install
+    bower install
+    mvn install
   
