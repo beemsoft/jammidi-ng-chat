@@ -1,5 +1,9 @@
-package be.g00glen00b.dto;
+package net.jammidi.dto;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection="events")
 public class MidiEvent {
 
     private String a;
@@ -39,5 +43,6 @@ public class MidiEvent {
     private int key;
     private String b;
 
+    @Id
     private int id;
 }

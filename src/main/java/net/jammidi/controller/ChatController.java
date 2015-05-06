@@ -1,13 +1,13 @@
-package be.g00glen00b.controller;
+package net.jammidi.controller;
 
 import java.util.Date;
 
+import net.jammidi.dto.Message;
+import net.jammidi.dto.OutputMessage;
 import org.slf4j.*;
 import org.springframework.messaging.handler.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import be.g00glen00b.dto.*;
 
 @Controller
 @RequestMapping("/")

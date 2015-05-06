@@ -1,4 +1,4 @@
-package be.g00glen00b.config;
+package net.jammidi.config;
 
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.*;
@@ -7,7 +7,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "be.g00glen00b.controller")
+@ComponentScan(basePackages = "net.jammidi.controller")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
   @Bean

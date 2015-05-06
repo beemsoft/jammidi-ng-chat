@@ -1,17 +1,15 @@
-package be.g00glen00b.controller;
+package net.jammidi.controller;
 
-import be.g00glen00b.dto.Message;
-import be.g00glen00b.dto.MidiEvent;
-import be.g00glen00b.dto.OutputMessage;
+import net.jammidi.dto.MidiEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Date;
+import javax.annotation.Resource;
 
 @Controller
 @RequestMapping("/")
@@ -19,10 +17,16 @@ public class MidiController {
 
   private Logger logger = LoggerFactory.getLogger(getClass());
 
+  @Resource
+  private MongoOperations mongoTemplate;
+
   @MessageMapping("/midi")
   @SendTo("/topic/midi")
   public MidiEvent sendMidi(MidiEvent message) {
     logger.info("Midi event sent: " + message.getKey());
+
+    mongoTemplate.save(message);
+
     return message;
   }
 }
