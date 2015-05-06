@@ -2,15 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.jammidi</groupId>
-	<artifactId>jammidi-ng-chat</artifactId>
+	<artifactId>jammidi</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Spring/AngularJS chat/MIDI application</name>
+	<name>Jammidi</name>
 	<url>www.jammidi.net</url>
-	<description>This is a demo application using the Spring framework, Spring messaging/WebSockets and AngularJS as the front-end language.</description>
+	<description>This is the Jammidi application.</description>
 
 	<build>
-		<finalName>jammidi-ng-chat</finalName>
+		<finalName>jammidi</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

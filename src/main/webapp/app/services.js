@@ -7,7 +7,7 @@
     }, messageIds = [];
     
     service.RECONNECT_TIMEOUT = 30000;
-      service.SOCKET_URL = "/jammidi-ng-chat/chat";
+      service.SOCKET_URL = "/jammidi/chat";
     service.CHAT_TOPIC = "/topic/message";
     service.CHAT_BROKER = "/app/chat";
     
@@ -68,7 +68,7 @@
     }, midiIds = [];
 
     service.RECONNECT_TIMEOUT = 30000;
-    service.SOCKET_URL = "/jammidi-ng-chat/midi";
+    service.SOCKET_URL = "/jammidi/midi";
     service.MIDI_TOPIC = "/topic/midi";
     service.MIDI_BROKER = "/app/midi";
 
