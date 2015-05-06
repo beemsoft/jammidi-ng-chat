@@ -23,38 +23,41 @@
     </div>
 
 
+    <div ng-controller="MainCtrl" ng-keydown="onKeyDown($event)" ng-keyup="onKeyUp($event)"
+         ng-keypress="onKeyPress($event)">
+      <object id="Jazz1" classid="CLSID:1ACE1618-1C7D-4561-AEE1-34842AA85E90" class="hidden">
+        <object id="Jazz2" type="audio/x-jazz" class="hidden">
+          <p style="visibility:visible;">This page requires <a href=http://jazz-soft.net>Jazz-Plugin</a> ...</p>
+        </object>
+      </object>
 
-  <div ng-controller="MainCtrl" ng-keydown="onKeyDown($event)" ng-keyup="onKeyUp($event)" ng-keypress="onKeyPress($event)">
-  <object id="Jazz1" classid="CLSID:1ACE1618-1C7D-4561-AEE1-34842AA85E90" class="hidden">
-    <object id="Jazz2" type="audio/x-jazz" class="hidden">
-      <p style="visibility:visible;">This page requires <a href=http://jazz-soft.net>Jazz-Plugin</a> ...</p>
-    </object>
-  </object>
+      <div id=piano class="Center">
+        <div class=ebony ng-model="keys">
+        <span ng-repeat="i in keys.b track by $index" id="{{i}}"
+             ng-class="{'break': keys.b[$index] == '|', 'on': isSelected(i)}" ng-mousedown="down(keys.b[$index])" ng-mouseup="up(keys.b[$index])"></span>
+        </div>
+        <div class=ivory ng-model="keys">
+          <span ng-repeat="i in keys.w" id="{{i}}" ng-mousedown="down(keys.w[$index])" ng-mouseup="up(keys.w[$index])"
+                ng-class="{'on': isSelected(i)}"></span>
+        </div>
+      </div>
+      <p>
+        <label>MIDI In:</label><select id=selectmidi2 ng-change="changemidi();" ng-model="_in">
+        <option ng-init="_in=list[0]" ng-repeat="i in listIn" ng-selected="{{i==_in}}" value="{{i}}">{{i}}</option>
+      </select>
 
-  <div id=piano class="Center">
-    <div class=ebony ng-model="keys">
-<span  ng-repeat="i in keys.b track by $index" id="{{i}}" ng-class="{'break': keys.b[$index] == '|', 'on': isSelected(i)}"
-       ng-mousedown="down(keys.b[$index])" ng-mouseup="up(keys.b[$index])"></span>
+        <label>MIDI Out:</label><select id=selectmidi ng-change="changemidi2();" ng-model="_out">
+        <option ng-init="_out=list[0]" ng-repeat="i in list" ng-selected="{{i==_out}}" value="{{i}}">{{i}}</option>
+      </select>
+        <label>Sound: </label><select id=midiSnd ng-change='changeSnd();' ng-model="_sound">
+        <option ng-init="_sound='Drawbar Organ'" ng-repeat="i in sounds" ng-selected="{{i==_sound}}" value="{{i}}">
+          {{i}}
+        </option>
+      </select>
+      </p>
+      <strong>MIDI Notes :</strong> {{note}}
+      <button ng-click="replay()">Replay</button>
     </div>
-    <div class=ivory ng-model="keys">
-      <span  ng-repeat="i in keys.w" id="{{i}}" ng-mousedown="down(keys.w[$index])" ng-mouseup="up(keys.w[$index])" ng-class="{'on': isSelected(i)}"></span>
-    </div>
-  </div>
-    <p>
-      <label>MIDI In:</label><select id=selectmidi2 ng-change="changemidi();" ng-model="_in">
-      <option ng-init="_in=list[0]" ng-repeat="i in listIn" ng-selected="{{i==_in}}" value="{{i}}">{{i}}</option>
-    </select>
-
-      <label>MIDI Out:</label><select id=selectmidi ng-change="changemidi2();" ng-model="_out">
-      <option ng-init="_out=list[0]" ng-repeat="i in list" ng-selected="{{i==_out}}" value="{{i}}">{{i}}</option>
-    </select>
-      <label>Sound: </label><select id=midiSnd ng-change='changeSnd();' ng-model="_sound">
-      <option ng-init="_sound='Drawbar Organ'" ng-repeat="i in sounds" ng-selected="{{i==_sound}}" value="{{i}}">{{i}}</option>
-    </select>
-    </p>
-    <strong>MIDI Notes :</strong> {{note}}
-
-  </div>
   </div>
 
   </body>

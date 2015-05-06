@@ -6,7 +6,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection="events")
 public class MidiEvent {
 
+    @Id
+    private int id;
+    private int interval;
     private String a;
+    private int key;
+    private String b;
 
     public int getKey() {
         return key;
@@ -40,9 +45,11 @@ public class MidiEvent {
         this.id = id;
     }
 
-    private int key;
-    private String b;
+    public int getInterval() {
+        return interval;
+    }
 
-    @Id
-    private int id;
+    public void setInterval(int interval) {
+        this.interval = interval;
+    }
 }

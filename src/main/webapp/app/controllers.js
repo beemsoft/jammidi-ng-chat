@@ -101,6 +101,10 @@
       return $scope.note.indexOf(id) > -1;
     };
 
+    $scope.replay = function () {
+      MidiService.replay();
+    }
+
   });
 
 })(angular);

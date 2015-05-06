@@ -65,28 +65,46 @@
     var service = {}, listener = $q.defer(), socket = {
       client: null,
       stomp: null
-    }, midiIds = [];
+    }, midiIds = [], prevMillis = 0;
 
     service.RECONNECT_TIMEOUT = 30000;
     service.SOCKET_URL = "/jammidi/midi";
     service.MIDI_TOPIC = "/topic/midi";
     service.MIDI_BROKER = "/app/midi";
+    service.MIDI_REPLAY = "/app/replay";
 
     service.receive = function() {
       return listener.promise;
     };
 
     service.send = function(a, key, b) {
+      function getInterval() {
+        var date = new Date();
+        var millis = date.getTime();
+        var intervalMillis = 0;
+        if (prevMillis !== 0) {
+          intervalMillis = millis - prevMillis;
+        }
+        prevMillis = millis;
+        return intervalMillis;
+      }
+
       var id = Math.floor(Math.random() * 1000000);
       socket.stomp.send(service.MIDI_BROKER, {
         priority: 9
       }, JSON.stringify({
+        interval: getInterval(),
         a: a,
         key: key,
         b: b,
         id: id
       }));
       midiIds.push(id);
+    };
+
+    service.replay = function() {
+      prevMillis = 0;
+      socket.stomp.send(service.MIDI_REPLAY);
     };
 
     var reconnect = function() {
