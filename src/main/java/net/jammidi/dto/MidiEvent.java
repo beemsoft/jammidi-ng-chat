@@ -9,9 +9,13 @@ public class MidiEvent {
     @Id
     private int id;
     private int interval;
+    private int index;
     private String a;
     private int key;
     private String b;
+    private String user;
+    private int version;
+    private String desc;
 
     public int getKey() {
         return key;
@@ -51,5 +55,37 @@ public class MidiEvent {
 
     public void setInterval(int interval) {
         this.interval = interval;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

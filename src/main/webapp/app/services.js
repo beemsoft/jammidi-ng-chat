@@ -1,4 +1,4 @@
-(function(angular, SockJS, Stomp, _, undefined) {
+(function(angular, SockJS, Stomp, _) {
   angular.module("chatApp.services").service("ChatService", function($q, $timeout) {
     
     var service = {}, listener = $q.defer(), socket = {
@@ -7,7 +7,7 @@
     }, messageIds = [];
     
     service.RECONNECT_TIMEOUT = 30000;
-      service.SOCKET_URL = "/jammidi/chat";
+    service.SOCKET_URL = "/jammidi/chat";
     service.CHAT_TOPIC = "/topic/message";
     service.CHAT_BROKER = "/app/chat";
     
@@ -66,18 +66,21 @@
       client: null,
       stomp: null
     }, midiIds = [], prevMillis = 0;
+    var isReplay = false, isFirstReplayNote = false;
 
     service.RECONNECT_TIMEOUT = 30000;
     service.SOCKET_URL = "/jammidi/midi";
     service.MIDI_TOPIC = "/topic/midi";
     service.MIDI_BROKER = "/app/midi";
     service.MIDI_REPLAY = "/app/replay";
+    service.MIDI_REPLAY_ALL = "/app/replayAll";
+    service.MIDI_CLEAR = "/app/clear";
 
     service.receive = function() {
       return listener.promise;
     };
 
-    service.send = function(a, key, b) {
+    service.send = function(a, key, b, user, desc) {
       function getInterval() {
         var date = new Date();
         var millis = date.getTime();
@@ -89,6 +92,11 @@
         return intervalMillis;
       }
 
+      var version = 1;
+      if (isReplay) {
+        version = 2;
+      }
+
       var id = Math.floor(Math.random() * 1000000);
       socket.stomp.send(service.MIDI_BROKER, {
         priority: 9
@@ -97,14 +105,36 @@
         a: a,
         key: key,
         b: b,
-        id: id
+        id: id,
+        user: user,
+        version: version,
+        desc: desc
       }));
       midiIds.push(id);
     };
 
-    service.replay = function() {
+    service.replay = function(version) {
       prevMillis = 0;
-      socket.stomp.send(service.MIDI_REPLAY);
+      isReplay = true;
+      isFirstReplayNote = false;
+      socket.stomp.send(service.MIDI_REPLAY, {
+        priority: 9
+      }, version
+      );
+    };
+
+    service.replayAll = function() {
+      socket.stomp.send(service.MIDI_REPLAY_ALL, {
+            priority: 9
+          }
+      );
+    };
+
+    service.clear = function(version) {
+      socket.stomp.send(service.MIDI_CLEAR, {
+            priority: 9
+          }, version
+      );
     };
 
     var reconnect = function() {
@@ -116,10 +146,15 @@
     var getMidi = function(data) {
       var midi = JSON.parse(data), out = {};
       out.midi = midi;
-      //out.time = new Date(midi.time);
       if (_.contains(midiIds, midi.id)) {
         out.self = true;
         midiIds = _.remove(midiIds, midi.id);
+      }
+
+      if (isReplay && !isFirstReplayNote) {
+        isFirstReplayNote = true;
+        var date = new Date();
+        prevMillis = date.getTime();
       }
       return out;
     };

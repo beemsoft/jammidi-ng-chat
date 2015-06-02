@@ -45,7 +45,8 @@
     $scope.listIn = jazz.MidiInList();
     $scope._in = $scope.listIn[0];
 
-    MidiService.receive().then(null, null, function(midiEvent) {
+    MidiService.receive()
+        .then(null, null, function(midiEvent) {
       if ($scope.note.indexOf(midiEvent.midi.key) == -1) {
         jazz.MidiOut(midiEvent.midi.a, midiEvent.midi.key, midiEvent.midi.b);
       }
@@ -67,7 +68,7 @@
         $scope.note.push(key)
       }
       jazz.MidiOut(a, key, c);
-      MidiService.send(a, key, c);
+        MidiService.send(a, key, c, $scope.user, $scope.desc);
     }
 
     jazz.MidiInOpen(0, function (t,a,key,c) {
@@ -102,8 +103,16 @@
     };
 
     $scope.replay = function () {
-      MidiService.replay();
-    }
+      MidiService.replay($scope.version);
+    };
+
+    $scope.replayAll = function () {
+      MidiService.replayAll();
+    };
+
+    $scope.clear = function () {
+      MidiService.clear($scope.version);
+    };
 
   });
 
