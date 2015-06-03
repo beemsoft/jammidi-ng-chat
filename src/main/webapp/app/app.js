@@ -1,9 +1,10 @@
-(function(angular) {
-  angular.module("chatApp", [
-    "chatApp.controllers",
-    "chatApp.services"
+(function() {
+  angular
+      .module("jammidi", [
+    "jammidi.controllers",
+    "jammidi.services"
   ]);
-  
-  angular.module("chatApp.controllers", []);
-  angular.module("chatApp.services", []);
-})(angular);
+
+  angular.module("jammidi.controllers", []);
+  angular.module("jammidi.services", []);
+})();

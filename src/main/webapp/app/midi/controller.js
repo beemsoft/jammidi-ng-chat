@@ -1,20 +1,8 @@
-(function(angular) {
-  angular.module("chatApp.controllers").controller("ChatCtrl", function($scope, ChatService) {
-    $scope.messages = [];
-    $scope.message = "";
-    $scope.max = 140;
-    
-    $scope.addMessage = function() {
-      ChatService.send($scope.message);
-      $scope.message = "";
-    };
-    
-    ChatService.receive().then(null, null, function(message) {
-      $scope.messages.push(message);
-    });
-  });
+(function() {
 
-  angular.module("chatApp.controllers").factory('jazz', function () {
+  angular
+      .module("jammidi.controllers")
+      .factory('jazz', function () {
     var Jazz = document.getElementById("Jazz1"); if(!Jazz || !Jazz.isJazz) Jazz = document.getElementById("Jazz2");
     return {
       MidiInOpen: function(channel, callback) {
@@ -32,7 +20,9 @@
     };
   });
 
-  angular.module("chatApp.controllers").controller("MainCtrl", function($scope, jazz, MidiService) {
+  angular
+      .module("jammidi.controllers")
+      .controller("MainCtrl", function($scope, jazz, MidiService) {
 
     $scope.message = '';
     $scope.messages = [];
@@ -116,4 +106,4 @@
 
   });
 
-})(angular);
+})();

@@ -1,5 +1,5 @@
 (function(angular, SockJS, Stomp, _) {
-  angular.module("chatApp.services").service("ChatService", function($q, $timeout) {
+  angular.module("jammidi.services").service("ChatService", function($q, $timeout) {
     
     var service = {}, listener = $q.defer(), socket = {
       client: null,
@@ -60,7 +60,7 @@
     return service;
   });
 
-  angular.module("chatApp.services").service("MidiService", function($q, $timeout) {
+  angular.module("jammidi.services").service("MidiService", function($q, $timeout) {
 
     var service = {}, listener = $q.defer(), socket = {
       client: null,
