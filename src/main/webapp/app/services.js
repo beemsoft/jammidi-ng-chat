@@ -80,7 +80,7 @@
       return listener.promise;
     };
 
-    service.send = function(a, key, b, user, desc) {
+    service.send = function(a, key, b, user, songTitle, desc) {
       function getInterval() {
         var date = new Date();
         var millis = date.getTime();
@@ -107,33 +107,41 @@
         b: b,
         id: id,
         user: user,
+        songTitle: songTitle,
         version: version,
         desc: desc
       }));
       midiIds.push(id);
     };
 
-    service.replay = function(version) {
+    service.replay = function(songTitle, version) {
       prevMillis = 0;
       isReplay = true;
       isFirstReplayNote = false;
       socket.stomp.send(service.MIDI_REPLAY, {
         priority: 9
-      }, version
-      );
+      }, JSON.stringify({
+            title: songTitle,
+            version: version
+          }
+      ));
     };
 
-    service.replayAll = function() {
+    service.replayAll = function(songTitle) {
       socket.stomp.send(service.MIDI_REPLAY_ALL, {
             priority: 9
-          }
+          }, songTitle
       );
     };
 
-    service.clear = function(version) {
+    service.clear = function(songTitle, version) {
       socket.stomp.send(service.MIDI_CLEAR, {
             priority: 9
-          }, version
+          }, JSON.stringify({
+                title: songTitle,
+                version: version
+              }
+          )
       );
     };
 

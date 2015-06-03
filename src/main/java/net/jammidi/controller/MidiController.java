@@ -1,6 +1,7 @@
 package net.jammidi.controller;
 
 import net.jammidi.dto.MidiEvent;
+import net.jammidi.dto.Song;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,11 +53,11 @@ public class MidiController {
   }
 
   @MessageMapping("/replay")
-  public void replay(@Payload int version) throws InterruptedException {
+  public void replay(@Payload Song song) throws InterruptedException {
     isReplaying = true;
-    replayVersion = version;
+    replayVersion = song.getVersion();
     Query query = new Query();
-    query.addCriteria(Criteria.where("version").is(version));
+    query.addCriteria(Criteria.where("songTitle").is(song.getTitle()).and("version").is(song.getVersion()));
     List<MidiEvent> events = mongoTemplate.find(query, MidiEvent.class);
 
     for (MidiEvent event : events) {
@@ -68,14 +68,14 @@ public class MidiController {
   }
 
   @MessageMapping("/replayAll")
-  public void replayAll() throws InterruptedException {
+  public void replayAll(@Payload String songTitle) throws InterruptedException {
     if (isReplaying) {
       return;
     }
     isReplaying = true;
     replayVersion = 3;
     Query query = new Query();
-    query.addCriteria(Criteria.where("version").is(replayVersion - 1));
+    query.addCriteria(Criteria.where("songTitle").is(songTitle).and("version").is(replayVersion - 1));
     List<MidiEvent> events1 = mongoTemplate.find(query, MidiEvent.class);
 
     List<MidiEvent> eventIndex = new ArrayList<>();
@@ -86,7 +86,7 @@ public class MidiController {
       eventIndex.add(event);
     }
     query = new Query();
-    query.addCriteria(Criteria.where("version").is(replayVersion - 2));
+    query.addCriteria(Criteria.where("songTitle").is(songTitle).and("version").is(replayVersion - 2));
     List<MidiEvent> events2 = mongoTemplate.find(query, MidiEvent.class);
     index = 0;
     for (MidiEvent event : events2) {
@@ -112,11 +112,11 @@ public class MidiController {
   }
 
   @MessageMapping("/clear")
-  public void clear(@Payload int version) throws InterruptedException {
+  public void clear(@Payload Song song) throws InterruptedException {
     logger.info("Clear events");
 
     Query query = new Query();
-    query.addCriteria(Criteria.where("version").is(version));
+    query.addCriteria(Criteria.where("songTitle").is(song.getTitle()).and("version").is(song.getVersion()));
     mongoTemplate.remove(query, MidiEvent.class);
   }
 }

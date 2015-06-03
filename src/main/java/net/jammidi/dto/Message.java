@@ -6,9 +6,9 @@ public class Message {
   private int id;
   
   public Message() {
-    
+
   }
-  
+
   public Message(int id, String message) {
     this.id = id;
     this.message = message;

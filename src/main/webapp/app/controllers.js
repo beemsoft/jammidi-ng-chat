@@ -68,7 +68,7 @@
         $scope.note.push(key)
       }
       jazz.MidiOut(a, key, c);
-        MidiService.send(a, key, c, $scope.user, $scope.desc);
+        MidiService.send(a, key, c, $scope.user, $scope.songTitle, $scope.desc);
     }
 
     jazz.MidiInOpen(0, function (t,a,key,c) {
@@ -103,15 +103,15 @@
     };
 
     $scope.replay = function () {
-      MidiService.replay($scope.version);
+      MidiService.replay($scope.songTitle, $scope.version);
     };
 
     $scope.replayAll = function () {
-      MidiService.replayAll();
+      MidiService.replayAll($scope.songTitle);
     };
 
     $scope.clear = function () {
-      MidiService.clear($scope.version);
+      MidiService.clear($scope.songTitle, $scope.version);
     };
 
   });
