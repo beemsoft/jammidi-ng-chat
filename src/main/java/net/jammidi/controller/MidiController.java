@@ -38,12 +38,13 @@ public class MidiController {
   private int replayVersion;
 
   @MessageMapping("/midi")
-  @SendTo("/topic/midi")
   public MidiEvent sendMidi(@Payload MidiEvent midiEvent) {
     logger.info("Midi event sent: " + midiEvent.getKey());
 
     if (isReplaying) {
       midiEvent.setVersion(replayVersion + 1);
+    } else {
+      messagingTemplate.convertAndSend( "/topic/midi", midiEvent);
     }
 
     mongoTemplate.save(midiEvent);
