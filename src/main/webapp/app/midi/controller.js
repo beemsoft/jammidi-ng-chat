@@ -24,8 +24,6 @@
       .module("jammidi.controllers")
       .controller("MainCtrl", function($scope, jazz, MidiService) {
 
-    $scope.message = '';
-    $scope.messages = [];
     $scope.note = [];
     $scope.sounds = sounds;
     $scope._sound='Drawbar Organ';
@@ -34,6 +32,8 @@
     $scope._out = $scope.list[0];
     $scope.listIn = jazz.MidiInList();
     $scope._in = $scope.listIn[0];
+
+    $scope.isMuted = { value: false };
 
     MidiService.receive()
         .then(null, null, function(midiEvent) {
@@ -58,7 +58,12 @@
         $scope.note.push(key)
       }
       jazz.MidiOut(a, key, c);
-        MidiService.send(a, key, c, $scope.user, $scope.songTitle, $scope.desc);
+      if (!$scope.isMuted.value) {
+        function playRemote() {
+          MidiService.send(a, key, c, $scope.user, $scope.songTitle, $scope.desc);
+        }
+        playRemote();
+      }
     }
 
     jazz.MidiInOpen(0, function (t,a,key,c) {

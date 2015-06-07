@@ -13,8 +13,8 @@ public class Song {
     private String title;
     private String description;
     private Date startDate;
-    private User author;
-    private List<User> contributors;
+//    private User author;
+//    private List<User> contributors;
     private int version;
 
 }
