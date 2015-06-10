@@ -37,9 +37,7 @@
 
     MidiService.receive()
         .then(null, null, function(midiEvent) {
-      if ($scope.note.indexOf(midiEvent.midi.key) == -1) {
-        jazz.MidiOut(midiEvent.midi.a, midiEvent.midi.key, midiEvent.midi.b);
-      }
+      jazz.MidiOut(midiEvent.midi.a, midiEvent.midi.key, midiEvent.midi.b);
       if (midiEvent.midi.b == 127 || midiEvent.midi.b == 0) {
         if ($scope.note.indexOf(midiEvent.midi.key) > -1) {
           $scope.note.splice($scope.note.indexOf(midiEvent.midi.key), 1)
@@ -107,6 +105,10 @@
 
     $scope.clear = function () {
       MidiService.clear($scope.songTitle, $scope.version);
+    };
+
+    $scope.reset = function () {
+      MidiService.reset();
     };
 
   });

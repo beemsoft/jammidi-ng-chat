@@ -145,6 +145,11 @@
       );
     };
 
+    service.reset = function () {
+      prevMillis = 0;
+      isReplay = false;
+    };
+
     var reconnect = function() {
       $timeout(function() {
         initialize();
