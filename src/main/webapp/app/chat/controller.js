@@ -1,7 +1,7 @@
 (function() {
 
   angular
-      .module("jammidi.controllers")
+      .module("app.controllers")
       .controller("ChatCtrl", function($scope, ChatService) {
     $scope.messages = [];
     $scope.message = "";

@@ -1,7 +1,7 @@
 (function() {
 
   angular
-      .module("jammidi.controllers")
+      .module("app.controllers")
       .factory('jazz', function () {
     var Jazz = document.getElementById("Jazz1"); if(!Jazz || !Jazz.isJazz) Jazz = document.getElementById("Jazz2");
     return {
@@ -21,7 +21,7 @@
   });
 
   angular
-      .module("jammidi.controllers")
+      .module("app.controllers")
       .controller("MainCtrl", function($scope, jazz, MidiService) {
 
     $scope.note = [];
