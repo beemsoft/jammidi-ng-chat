@@ -1,4 +1,4 @@
-package be.g00glen00b.dto;
+package net.jammidi.dto;
 
 import java.util.Date;
 

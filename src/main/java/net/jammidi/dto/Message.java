@@ -1,4 +1,4 @@
-package be.g00glen00b.dto;
+package net.jammidi.dto;
 
 public class Message {
 
@@ -6,9 +6,9 @@ public class Message {
   private int id;
   
   public Message() {
-    
+
   }
-  
+
   public Message(int id, String message) {
     this.id = id;
     this.message = message;

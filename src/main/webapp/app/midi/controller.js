@@ -1,20 +1,8 @@
-(function(angular) {
-  angular.module("chatApp.controllers").controller("ChatCtrl", function($scope, ChatService) {
-    $scope.messages = [];
-    $scope.message = "";
-    $scope.max = 140;
-    
-    $scope.addMessage = function() {
-      ChatService.send($scope.message);
-      $scope.message = "";
-    };
-    
-    ChatService.receive().then(null, null, function(message) {
-      $scope.messages.push(message);
-    });
-  });
+(function() {
 
-  angular.module("chatApp.controllers").factory('jazz', function () {
+  angular
+      .module("app.controllers")
+      .factory('jazz', function () {
     var Jazz = document.getElementById("Jazz1"); if(!Jazz || !Jazz.isJazz) Jazz = document.getElementById("Jazz2");
     return {
       MidiInOpen: function(channel, callback) {
@@ -32,10 +20,10 @@
     };
   });
 
-  angular.module("chatApp.controllers").controller("MainCtrl", function($scope, jazz, MidiService) {
+  angular
+      .module("app.controllers")
+      .controller("MainCtrl", function($scope, jazz, MidiService) {
 
-    $scope.message = '';
-    $scope.messages = [];
     $scope.note = [];
     $scope.sounds = sounds;
     $scope._sound='Drawbar Organ';
@@ -45,10 +33,11 @@
     $scope.listIn = jazz.MidiInList();
     $scope._in = $scope.listIn[0];
 
-    MidiService.receive().then(null, null, function(midiEvent) {
-      if ($scope.note.indexOf(midiEvent.midi.key) == -1) {
-        jazz.MidiOut(midiEvent.midi.a, midiEvent.midi.key, midiEvent.midi.b);
-      }
+    $scope.isMuted = { value: false };
+
+    MidiService.receive()
+        .then(null, null, function(midiEvent) {
+      jazz.MidiOut(midiEvent.midi.a, midiEvent.midi.key, midiEvent.midi.b);
       if (midiEvent.midi.b == 127 || midiEvent.midi.b == 0) {
         if ($scope.note.indexOf(midiEvent.midi.key) > -1) {
           $scope.note.splice($scope.note.indexOf(midiEvent.midi.key), 1)
@@ -67,7 +56,12 @@
         $scope.note.push(key)
       }
       jazz.MidiOut(a, key, c);
-      MidiService.send(a, key, c);
+      if (!$scope.isMuted.value) {
+        function playRemote() {
+          MidiService.send(a, key, c, $scope.user, $scope.songTitle, $scope.desc);
+        }
+        playRemote();
+      }
     }
 
     jazz.MidiInOpen(0, function (t,a,key,c) {
@@ -101,6 +95,22 @@
       return $scope.note.indexOf(id) > -1;
     };
 
+    $scope.replay = function () {
+      MidiService.replay($scope.songTitle, $scope.version);
+    };
+
+    $scope.replayAll = function () {
+      MidiService.replayAll($scope.songTitle);
+    };
+
+    $scope.clear = function () {
+      MidiService.clear($scope.songTitle, $scope.version);
+    };
+
+    $scope.reset = function () {
+      MidiService.reset();
+    };
+
   });
 
-})(angular);
+})();

@@ -1,4 +1,4 @@
-package be.g00glen00b.config;
+package net.jammidi.config;
 
 import java.nio.charset.StandardCharsets;
 
