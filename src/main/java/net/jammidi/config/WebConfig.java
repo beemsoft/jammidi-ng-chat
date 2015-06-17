@@ -7,7 +7,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "net.jammidi.controller")
+@ComponentScan(basePackages = "net.jammidi")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
   @Bean

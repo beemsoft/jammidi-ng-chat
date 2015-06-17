@@ -4,8 +4,9 @@
 <ul>
     <li ng-repeat="user in vm.allUsers">
         {{user.username}} ({{user.firstName}} {{user.lastName}})
-        - <a href="#" ng-click="vm.deleteUser(user.id)">Delete</a>
+        - <a href="#" ng-click="vm.deleteUser(user)">Delete</a>
     </li>
 </ul>
 <p>&nbsp;</p>
-<p><a href="#/login" class="btn btn-primary">Logout</a></p>
+<p><a href="#/update" ng-click="vm.update()">Update</a></p>
+<p><a href="#" ng-click="vm.logOff()">Logout</a></p>
